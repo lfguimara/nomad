@@ -1,26 +1,234 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* bege do fundo da logo */
+  --cream: #fef8d4;
+  --ink: #1f1a17;
+  --gold: #c99a4b;
+  /* marrom das linhas da logo */
+  --brown: #89563f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-gold: var(--gold);
+  --color-off-white: var(--off-white);
+  --color-brown: var(--brown);
+  --font-logo: var(--font-baskerville);
+  --font-sans: var(--font-dm-sans);
 }
 
-@media (prefers-color-scheme: dark) {
+/* Header — medidas copiadas do dishoom.com */
+:root {
+  --header-height: 82px;
+  --container-padding: clamp(1.25rem, 3vw, 2.5rem);
+  --off-white: #fffdf9;
+  --font-gill: "Gill Sans Nova", "Gill Sans", "Gill Sans MT", var(--font-cabin), system-ui, sans-serif;
+}
+
+@media (min-width: 1024px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --header-height: 67px;
+  }
+}
+
+.nav-text {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-family: var(--font-gill);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.cta {
+  letter-spacing: 0.05em;
+  font-family: var(--font-gill);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (min-width: 1024px) {
+  .nav-text,
+  .cta {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Hero em vídeo que expande ao rolar (variáveis --grow/--t1/--t2 vêm do Hero.tsx) */
+.hero {
+  --strip-h: 3.5rem;
+  --w0: 88%;
+  --h0: 62svh;
+  --top0: calc(var(--header-height) + 0.75rem);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    --w0: 64%;
+    --h0: 64svh;
+    --top0: max(9svh, calc(var(--header-height) + 0.75rem));
+  }
+}
+
+.hero-card {
+  top: calc(var(--top0) * (1 - var(--grow, 0)));
+  width: calc(var(--w0) + (100% - var(--w0)) * var(--grow, 0));
+  height: calc(var(--h0) + (100svh - var(--strip-h) - var(--h0)) * var(--grow, 0));
+  border-radius: calc(8px * (1 - var(--grow, 0)));
+}
+
+.hero-t1 {
+  opacity: var(--t1, 1);
+  transform: translateY(calc(-16px * (1 - var(--t1, 1))));
+}
+
+.hero-t2 {
+  opacity: var(--t2, 0);
+  transform: translateY(calc(16px * (1 - var(--t2, 0))));
+}
+
+.hero-btn {
+  background: rgb(21 21 21 / 0.85);
+  border: 2px solid var(--off-white);
+  box-shadow:
+    inset 0 0 0 3px #151515,
+    inset 0 0 0 4px var(--off-white);
+  color: var(--off-white);
+  padding: 0.9rem 2rem;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.hero-btn:hover {
+  background: var(--off-white);
+  color: #151515;
+}
+
+/* Botão de moldura dupla para fundos claros (mesmo desenho do .hero-btn) */
+.frame-btn {
+  background: transparent;
+  border: 2px solid var(--ink);
+  box-shadow:
+    inset 0 0 0 3px var(--cream),
+    inset 0 0 0 4px var(--ink);
+  color: var(--ink);
+  padding: 0.9rem 2rem;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+}
+
+.frame-btn:hover {
+  background: var(--ink);
+  box-shadow:
+    inset 0 0 0 3px var(--cream),
+    inset 0 0 0 4px var(--ink);
+  color: var(--cream);
+}
+
+/* Cartão de embarque (Destinos): picote tracejado com recortes nas bordas */
+.pass-divider {
+  position: relative;
+  border-top: 2px dashed rgb(31 26 23 / 0.25);
+}
+
+.pass-divider::before,
+.pass-divider::after {
+  content: "";
+  position: absolute;
+  top: -13px;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: #151515;
+}
+
+.pass-divider::before {
+  left: -12px;
+}
+
+.pass-divider::after {
+  right: -12px;
+}
+
+@media (min-width: 768px) {
+  .pass-divider {
+    border-top: 0;
+    border-left: 2px dashed rgb(31 26 23 / 0.25);
+  }
+
+  .pass-divider::before,
+  .pass-divider::after {
+    left: -13px;
+    right: auto;
+  }
+
+  .pass-divider::before {
+    top: -12px;
+  }
+
+  .pass-divider::after {
+    top: auto;
+    bottom: -12px;
+  }
+}
+
+/* Anel do carimbo: o degradê cônico vira um aro de 4px */
+.stamp-ring {
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+  box-shadow: 0 0 0 1px rgb(31 26 23 / 0.08);
+}
+
+@keyframes pass-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.pass-fade {
+  animation: pass-fade 0.45s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pass-fade {
+    animation: none;
+  }
+}
+
+/* Faixa de destaques */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.marquee-track {
+  animation: marquee 64s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
 }
